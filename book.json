@@ -1,0 +1,11 @@
+{
+  "plugins": ["disqus", "ga"],
+  "pluginsConfig": {
+    "disqus": {
+      "shortName": "uwprecipes"
+    },
+    "ga": {
+      "token": "UA-118317-19"
+    }
+  }
+}
