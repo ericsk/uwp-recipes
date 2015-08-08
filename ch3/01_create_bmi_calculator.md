@@ -14,23 +14,23 @@
 
   2. 專案建立完成後，在方案視窗中點擊 **MainPage.xaml** 檔案來編輯這個計算機的操作介面，首先運用 ```<Grid>``` 元件來畫出介面的版型，在 XAML 檔案中將原本的 ```<Grid>``` 元件部份修改為：
 
-  ```xml
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="120" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
+    ```xml
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+       <Grid.RowDefinitions>
+          <RowDefinition Height="120" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+       </Grid.RowDefinitions>
 
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="100" />
-      <ColumnDefinition Width="150" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-  </Grid>
-  ```
+       <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="100" />
+          <ColumnDefinition Width="150" />
+          <ColumnDefinition Width="*" />
+       </Grid.ColumnDefinitions>
+    </Grid>
+    ```
   
   在這段 XAML 裡，我們在畫面上用 ```<Grid>``` 元件定義了 5 個列（row）、3 個行（column）。其中第一個列的列高為 120，其餘的列都是由該列填入的元件高度來決定；而行的部份一個 100、一個 150 寬，第三行設定為 __*__ 表示使用其餘的畫面寬度。
 
@@ -40,11 +40,11 @@
 
   3. 接下來先放一個表示應用程式標題的文字標籤，在 ```</Grid.ColumnDefinitions>``` 之後加入
 
-  ```xml
-  <TextBlock Grid.Row="0" Grid.ColumnSpan="3" 
-             Text="BMI 計算機" Style="{StaticResource HeaderTextBlockStyle}"
-             VerticalAlignment="Center" Margin="20,0" />
-  ```
+    ```xml
+    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" 
+                Text="BMI 計算機" Style="{StaticResource HeaderTextBlockStyle}"
+                VerticalAlignment="Center" Margin="20,0" />
+    ```
 
   ```<TextBlock>``` 是專門用來顯示文字使用的 UI 元件，只要在其中使用 _Text_ 屬性就可以設定要顯示的文字。而在這個例子中，我們要將它放在畫面最上方（也就是第一列），所以使用了 ```Grid.Row="0"``` 來指定這個元件要擺在第一列；同時，我們並不希望標題文字只在第一列第一行顯示，應該要橫跨三行，所以使用 ```Grid.ColumnSpan="3"``` 來指明這個元件會佔用三行的空間來顯示文字；樣式的部份，我們選用系統內建的標題文字樣式，所以使用 ```Style="{StaticResource HeaderTextBlockStyle}"``` 來作設定，另外 _VerticalAlignment_ 屬性指定垂置對齊方式、而 _Margin_ 則是設定文字標籤外的留白。
 
@@ -57,39 +57,39 @@
 
   4. 接下來，在標題的 ```<TextBlock>``` 下方將其它元件填入：
 
-  ```xml
-  <!-- 身高 -->
-  <TextBlock Grid.Row="1" Grid.Column="0" Margin="10,5" 
-             Text="身高:" Style="{StaticResource BodyTextBlockStyle}" 
-             HorizontalAlignment="Right" VerticalAlignment="Center" />
+    ```xml
+    <!-- 身高 -->
+    <TextBlock Grid.Row="1" Grid.Column="0" Margin="10,5"
+                Text="身高:" Style="{StaticResource BodyTextBlockStyle}" 
+                HorizontalAlignment="Right" VerticalAlignment="Center" />
 
-  <StackPanel Orientation="Horizontal" Margin="10,5" 
-              Grid.Row="1" Grid.Column="1">
-    <TextBox x:Name="Height" Width="80" />
-    <TextBlock Text="cm" VerticalAlignment="Center" Margin="5,0,0,0" />
-  </StackPanel>
+    <StackPanel Orientation="Horizontal" Margin="10,5" 
+                 Grid.Row="1" Grid.Column="1">
+        <TextBox x:Name="Height" Width="80" />
+        <TextBlock Text="cm" VerticalAlignment="Center" Margin="5,0,0,0" />
+    </StackPanel>
 
-  <!-- 體重 -->
-  <TextBlock Grid.Row="2" Grid.Column="0" Margin="10,5"
-             Text="體重:"  Style="{StaticResource BodyTextBlockStyle}"
-             HorizontalAlignment="Right" VerticalAlignment="Center"/>
+    <!-- 體重 -->
+    <TextBlock Grid.Row="2" Grid.Column="0" Margin="10,5"
+                Text="體重:"  Style="{StaticResource BodyTextBlockStyle}"
+                HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
-  <StackPanel Orientation="Horizontal" Margin="10,5"
-              Grid.Row="2" Grid.Column="1">
-    <TextBox x:Name="Weight" Width="80" />
-    <TextBlock Text="kg" VerticalAlignment="Center" Margin="5,0,0,0" />
-  </StackPanel>
+    <StackPanel Orientation="Horizontal" Margin="10,5"
+                 Grid.Row="2" Grid.Column="1">
+       <TextBox x:Name="Weight" Width="80" />
+       <TextBlock Text="kg" VerticalAlignment="Center" Margin="5,0,0,0" />
+    </StackPanel>
 
-  <Button Grid.Row="3" Grid.Column="1" Margin="10,5" 
-          Content="計算" Click="OnCalculateButtonClicked" />
+    <Button Grid.Row="3" Grid.Column="1" Margin="10,5" 
+             Content="計算" Click="OnCalculateButtonClicked" />
 
-  <!-- 結果 -->
-  <TextBlock Grid.Row="4" Grid.Column="0"  Margin="10,5"
-             Text="結果:" Style="{StaticResource BodyTextBlockStyle}"
-             HorizontalAlignment="Right" VerticalAlignment="Center" />
+    <!-- 結果 -->
+    <TextBlock Grid.Row="4" Grid.Column="0"  Margin="10,5"
+                Text="結果:" Style="{StaticResource BodyTextBlockStyle}"
+                HorizontalAlignment="Right" VerticalAlignment="Center" />
 
-  <TextBlock x:Name="BMIResult" Grid.Row="4" Grid.Column="1"
-             Margin="10,5" Style="{StaticResource TitleTextBlockStyle}"/> 
+    <TextBlock x:Name="BMIResult" Grid.Row="4" Grid.Column="1"
+                Margin="10,5" Style="{StaticResource TitleTextBlockStyle}"/> 
   ```
 
   擺放 UI 元件時，因為已經使用 ```<Grid>``` 定義了排版佈局，所以都是用 ```Grid.Row``` 以及 ```Grid.Column``` 屬性來指定要擺放的位置，其中在文字輸入框的部份使用了 ```<StackPanel>``` 這個排版元件，這個排版元件主要用來讓 UI 元件垂直地或水平地依序排列，所以這裡用 ```Orientation="Horizontal"``` 來指定是水平排列（不使用這個屬性或設成 _Vertical_ 則表示垂直排列），這裡用來排列文字輸入框 ```<TextBox>``` 以及一個用來表示 cm 或 kg 的文字標籤。
@@ -110,20 +110,19 @@
 
   開起後，在 _MainPage_ 類別中加入一個 ```OnCalculateButtonClicked``` 的方法（與 XAML 中在 ```<Button>``` 設定 _Click_ 屬性相同），用來處理按鈕按下後的動作。
 
-  ```csharp
-  private void OnCalculateButtonClicked(object sender, RoutedEventArgs e)
-  {
-    double height, weight;
-
-    if (double.TryParse(Height.Text, out height) && 
-        double.TryParse(Weight.Text, out weight))
-    {
-      var heightInM = height / 100.0;
-
-      BMIResult.Text = (weight / (heightInM * heightInM)).ToString();
-    }
-  }
-  ```
+   ```csharp
+   private void OnCalculateButtonClicked(object sender, RoutedEventArgs e)
+   {
+       double height, weight;
+       
+       if (double.TryParse(Height.Text, out height) && 
+           double.TryParse(Weight.Text, out weight))
+       {
+           var heightInM = height / 100.0;
+           BMIResult.Text = (weight / (heightInM * heightInM)).ToString();
+       }
+   }
+   ```
 
   由於在身高的文字輸入框中設定了 ```x:Name="Height"```，所以在 code behind 中可以直接用 ```Height``` 來取得該文字輸入框，所以就可以藉著存取它的 _Text_ 屬性拿到輸入後的文字，由於拿回來的是一個 _string_ 型態的值，所以使用了 ```double.TryParse``` 將文字資料轉換成 _double_ 型態的浮點數資料，以便作後續的計算。
 
