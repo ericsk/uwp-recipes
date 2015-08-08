@@ -3,7 +3,7 @@
 * [通用 Windows 應用程式 (UWP) 食譜](README.md)
 * UWP 基礎
 * UWP 開發環境
-  * 安裝 UWP 開發工具
+  * [安裝 UWP 開發工具](ch2/01_setup_uwp_development_tool.md)
 * XAML 佈局及控制項元件
 * XAML 資料繫結
 * 檔案與資料存取
