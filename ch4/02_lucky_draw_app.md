@@ -11,95 +11,95 @@
 
   1. 建立一個名為 _LuckyDraw_ 的空白 UWP 專案後，在專案中新增一個 **Winner.cs** 的類別，這個類別要用來表示抽獎得主的個人資料，這裡我們顯示 3 個資料欄位：_姓名_、_部門_還有_性別_即可，而 **Winner.cs** 的內容如下：
 
-  	```csharp
-  	using System.ComponentModel;
+    ```csharp
+    using System.ComponentModel;
 
 	namespace LuckyDraw
 	{
-	  public class Winner : INotifyPropertyChanged
-	  {
-	    private string _name;
-	    public string Name
-	    {
-	      get
-	      {
-	        return _name;
-	      }
-	      set
-	      {
-	        if (!value.Equals(_name))
-	        {
-	          _name = value;
-	          NotifyPropertyChanged("Name");
-	        }
-	      }
-	    }
+	   public class Winner : INotifyPropertyChanged
+	   {
+	     private string _name;
+	     public string Name
+	     {
+	       get
+	       {
+	         return _name;
+	       }
+	       set
+	       {
+	         if (!value.Equals(_name))
+	         {
+	           _name = value;
+	           NotifyPropertyChanged("Name");
+	         }
+	       }
+	     }
 	
-	    private string _department;
-	    public string Department
-	    {
-	      get
-	      {
-	        return _department;
-	      }
-	      set
-	      {
-	        if (!value.Equals(_department))
-	        {
-	          _department = value;
-	          NotifyPropertyChanged("Department");
-	        }
-	      }
-	    }
+	     private string _department;
+	     public string Department
+	     {
+	       get
+	       {
+	         return _department;
+	       }
+	       set
+	       {
+	         if (!value.Equals(_department))
+	         {
+	           _department = value;
+	           NotifyPropertyChanged("Department");
+	         }
+	       }
+	     }
 	
-	    private int _gender;
-	    public int Gender
-	    {
-	      get
-	      {
-	        return _gender;
-	      }
-	      set
-	      {
-	        if (value != _gender)
-	        {
-	          _gender = value;
-	          NotifyPropertyChanged("Gender");
-	        }
-	      }
-	    }
+	     private int _gender;
+	     public int Gender
+	     {
+	       get
+	       {
+	         return _gender;
+	       }
+	       set
+	       {
+	         if (value != _gender)
+	         {
+	           _gender = value;
+	           NotifyPropertyChanged("Gender");
+	         }
+	       }
+	     }
 	
-	    public event PropertyChangedEventHandler PropertyChanged;
-	    private void NotifyPropertyChanged(string propertyName)
-	    {
-	      PropertyChangedEventHandler handler = PropertyChanged;
-	      if (null != handler)
-	      {
-	        handler(this, new PropertyChangedEventArgs(propertyName));
-	      }
-	    }
-	  }
-	}
-  ```
+	     public event PropertyChangedEventHandler PropertyChanged;
+	     private void NotifyPropertyChanged(string propertyName)
+	     {
+	       PropertyChangedEventHandler handler = PropertyChanged;
+	       if (null != handler)
+	       {
+	         handler(this, new PropertyChangedEventArgs(propertyName));
+	       }
+	     }
+	   }
+    }
+    ```
 
   雖然我們只想要定義 _Name_、_Department_、還有 _Gender_ 三個屬性，但為了讓這些屬性繫結在 UI 畫面時會主動通知畫面是否要更新，所以還是實作了 ```INotifyPropertyChanged``` 介面，而每個屬性在更新的部份也主動觸發 _Property Changed_ 事件。
 
   2. 有了基礎資料結構後，接下來便能建立一個 view model 來與操作介面做資料繫結，一樣在專中加入一個 **MainViewModel.cs** 的類別。先將內容修改為：
 
 	```csharp
-	using System.Collections.ObjectModel;
+    using System.Collections.ObjectModel;
 
 	namespace LuckyDraw
 	{
-  		public class MainViewModel
-  		{
-    		public ObservableCollection<Winner> Winners { get; private set; }
-
-    		public MainViewModel()
-    		{
-      			Winners = new ObservableCollection<Winner>();
-    		}
-  		}
+	   public class MainViewModel
+	   {
+	     public ObservableCollection<Winner> Winners { get; private set; }
+	     
+	     public MainViewModel()
+	     {
+	       Winners = new ObservableCollection<Winner>();
+	     }
+	   }
 	}
 	```
 
@@ -109,29 +109,28 @@
 
   3. 有了基礎資料結構後，回到 **MainPage.xaml** 來設計抽獎程式的操作介面，我們簡單地在畫面上放個標題，然後一個按鈕，最後就是顯示中獎者的名單，所以設計成這樣：
 
-
-	```xml
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-      <Grid.RowDefinitions>
-	    <RowDefinition Height="120"/>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-	  </Grid.RowDefinitions>
-
-      <TextBlock Grid.Row="0" Text="抽獎程式"
-                 Style="{StaticResource HeaderTextBlockStyle}"
-                 VerticalAlignment="Center" Margin="20,0"/>
+    ```xml
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+       <Grid.RowDefinitions>
+         <RowDefinition Height="120"/>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+       </Grid.RowDefinitions>
+       
+       <TextBlock Grid.Row="0" Text="抽獎程式"
+                  Style="{StaticResource HeaderTextBlockStyle}"
+                  VerticalAlignment="Center" Margin="20,0"/>
+                  
+       <Button Grid.Row="1" Content="抽獎" Margin="20,0"
+               Click="Button_Click" />
     
-      <Button Grid.Row="1" Content="抽獎" Margin="20,0"
-              Click="Button_Click" />
-    
-      <TextBlock Grid.Row="2" Text="中獎名單" Margin="20"
-                 Style="{StaticResource SubheaderTextBlockStyle}"/>
+       <TextBlock Grid.Row="2" Text="中獎名單" Margin="20"
+                  Style="{StaticResource SubheaderTextBlockStyle}"/>
 
-      <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
-        <GridView Margin="20,0" ItemsSource="{Binding Winners}" />
-      </ScrollViewer>
+       <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
+         <GridView Margin="20,0" ItemsSource="{Binding Winners}" />
+       </ScrollViewer>
 	</Grid>
 	```
 
@@ -169,8 +168,8 @@
 
 	public MainPage()
 	{
-	  this.InitializeComponent();
-	  this.DataContext = viewModel;
+	   this.InitializeComponent();
+	   this.DataContext = viewModel;
 	}
 	```
 
@@ -179,7 +178,7 @@
 	```csharp
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-	  viewModel.Draw();
+	   viewModel.Draw();
 	}
 	```
   
@@ -192,26 +191,26 @@
 
     public MainViewModel()
 	{
-	  Winners = new ObservableCollection<Winner>();
-	  Attendees = new List<Winner>();
-      Init();
+	   Winners = new ObservableCollection<Winner>();
+	   Attendees = new List<Winner>();
+       Init();
 	}
 
 	private void Init()
     {
-      Attendees.Add(new Winner() { Name = "Alice", Department = "Admin", Gender = 0 });
-      Attendees.Add(new Winner() { Name = "Bob", Department = "Legal", Gender = 1 });
-      Attendees.Add(new Winner() { Name = "Catherine", Department = "Finance", Gender = 0 });
-      Attendees.Add(new Winner() { Name = "David", Department = "Marketing", Gender = 1 });
-      Attendees.Add(new Winner() { Name = "Eric", Department = "Engineering", Gender = 1 });
-      Attendees.Add(new Winner() { Name = "Frank", Department = "Engineering", Gender = 1 });
-      Attendees.Add(new Winner() { Name = "Gary", Department = "Sales", Gender = 1 });
-      Attendees.Add(new Winner() { Name = "Helen", Department = "Marketing", Gender = 0 });
-      Attendees.Add(new Winner() { Name = "Irene", Department = "Marketing", Gender = 0 });
-      Attendees.Add(new Winner() { Name = "James", Department = "Sales", Gender = 1 });
-      Attendees.Add(new Winner() { Name = "Kathy", Department = "Sales", Gender = 0 });
-      Attendees.Add(new Winner() { Name = "Leslie", Department = "Sales", Gender = 0 });
-      Attendees.Add(new Winner() { Name = "Mark", Department = "Sales", Gender = 1 });
+       Attendees.Add(new Winner() { Name = "Alice", Department = "Admin", Gender = 0 });
+       Attendees.Add(new Winner() { Name = "Bob", Department = "Legal", Gender = 1 });
+       Attendees.Add(new Winner() { Name = "Catherine", Department = "Finance", Gender = 0 });
+       Attendees.Add(new Winner() { Name = "David", Department = "Marketing", Gender = 1 });
+       Attendees.Add(new Winner() { Name = "Eric", Department = "Engineering", Gender = 1 });
+       Attendees.Add(new Winner() { Name = "Frank", Department = "Engineering", Gender = 1 });
+       Attendees.Add(new Winner() { Name = "Gary", Department = "Sales", Gender = 1 });
+       Attendees.Add(new Winner() { Name = "Helen", Department = "Marketing", Gender = 0 });
+       Attendees.Add(new Winner() { Name = "Irene", Department = "Marketing", Gender = 0 });
+       Attendees.Add(new Winner() { Name = "James", Department = "Sales", Gender = 1 });
+       Attendees.Add(new Winner() { Name = "Kathy", Department = "Sales", Gender = 0 });
+       Attendees.Add(new Winner() { Name = "Leslie", Department = "Sales", Gender = 0 });
+       Attendees.Add(new Winner() { Name = "Mark", Department = "Sales", Gender = 1 });
     }
 	```
 
@@ -222,24 +221,24 @@
 	```csharp
 	public void Draw()
 	{
-      Winners.Clear();
+       Winners.Clear();
 
-      var rand = new Random();
-      var drawed = new List<int>();
-      int length = Attendees.Count;
-      int index;
+       var rand = new Random();
+       var drawed = new List<int>();
+       int length = Attendees.Count;
+       int index;
 
-      // 抽出 5 位
-      for (int i = 0; i < 5; ++i)
-      {
-        do
-        {
-          index = rand.Next() % length;
-        } while (drawed.Contains(index));
-        drawed.Add(index);
+       // 抽出 5 位
+       for (int i = 0; i < 5; ++i)
+       {
+         do
+         {
+           index = rand.Next() % length;
+         } while (drawed.Contains(index));
+         drawed.Add(index);
 
-        Winners.Add(Attendees[index]);
-      }	
+         Winners.Add(Attendees[index]);
+       }	
 	}
 	```
 
