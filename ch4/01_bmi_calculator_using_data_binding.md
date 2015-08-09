@@ -22,8 +22,8 @@
   <!-- 結果 -->
   ...
   <TextBlock Grid.Row="4" Grid.Column="1"
-             Text="{Binding BMI}"
-             Margin="10,5" Style="{StaticResource TitleTextBlockStyle}"/>
+                Text="{Binding BMI}"
+                Margin="10,5" Style="{StaticResource TitleTextBlockStyle}"/>
   ```
 
   這裡雖然加上 _Text_ 屬性，但是並不是直接填值進去，而是使用資料繫結（data binding）的語法，讓填入身高數值的 ```<TextBox>``` 文字數值去 \*bind\* _Height_ 變數、體重的就是 bind _Weight_ 變數、而顯示結果的文字標籤去 bind _BMI_，透過這樣的資料繫結，文字輸入框的 _Text_ 值就跟繫結的變數同步了（因為我們設定了 _Mode=TwoWay_），下一個問題就是，那 _Height_、_Weight_、以及 _BMI_ 變數要放在哪裡？
@@ -39,12 +39,12 @@
   ```csharp
   namespace BMI_Calculator
   {
-    public class MainViewModel
-    {
-      public string Height { get; set; }
-      public string Weight { get; set; }
-      public string BMI { get; set; }
-    }
+       public class MainViewModel
+       {
+         public string Height { get; set; }
+         public string Weight { get; set; }
+         public string BMI { get; set; }
+       }
   }
   ```
 
@@ -57,7 +57,7 @@
   ```csharp
   public sealed partial class MainPage : Page
   {
-    private MainViewModel viewModel = new MainViewModel();
+       private MainViewModel viewModel = new MainViewModel();
   ```
 
   產生了一個 _MainViewModel_ 的物件後，剩下的工作就是把 _MainPage_ 的 _DataContext_ 設定成這個物件，只要在建構式中呼叫 _InitializeComponent()_ 的敘述句後設定即可：
@@ -65,8 +65,8 @@
   ```csharp
   public MainPage()
   {
-    this.InitializeComponent();
-    this.DataContext = viewModel;
+       this.InitializeComponent();
+       this.DataContext = viewModel;
   }
   ```
 
@@ -80,14 +80,14 @@
   ```csharp
   private void OnCalculateButtonClicked(object sender, RoutedEventArgs e)
   {
-    double height, weight;
+       double height, weight;
 
-    if (double.TryParse(viewModel.Height, out height) &&
-        double.TryParse(viewModel.Weight, out weight))
-    {
-      var heightInM = height / 100.0;
-      viewModel.BMI = (weight / (heightInM * heightInM)).ToString();
-    }
+       if (double.TryParse(viewModel.Height, out height) &&
+           double.TryParse(viewModel.Weight, out weight))
+       {
+         var heightInM = height / 100.0;
+         viewModel.BMI = (weight / (heightInM * heightInM)).ToString();
+       }
   }
   ```
 
@@ -100,38 +100,38 @@
 
   namespace BMI_Calculator
   {
-    public class MainViewModel : INotifyPropertyChanged
-    {
-      public string Height { get; set; }
-      public string Weight { get; set; }
+       public class MainViewModel : INotifyPropertyChanged
+       {
+         public string Height { get; set; }
+         public string Weight { get; set; }
 
-      private string _bmi;
-      public string BMI
-      {
-        get
-        {
-          return _bmi;
-        }
-        set
-        {
-          if (!value.Equals(_bmi))
-          {
-            _bmi = value;
-            NotifyPropertyChanged("BMI");
-          }
-        }
-      }
+         private string _bmi;
+         public string BMI
+         {
+           get
+           {
+             return _bmi;
+           }
+           set
+           {
+             if (!value.Equals(_bmi))
+             {
+               _bmi = value;
+               NotifyPropertyChanged("BMI");
+             }
+           }
+         }
 
-      public event PropertyChangedEventHandler PropertyChanged;
-      private void NotifyPropertyChanged(string propertyName)
-      {
-        PropertyChangedEventHandler handler = PropertyChanged;
-        if (null != handler)
-        {
-          handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-      }
-    }
+         public event PropertyChangedEventHandler PropertyChanged;
+         private void NotifyPropertyChanged(string propertyName)
+         {
+           PropertyChangedEventHandler handler = PropertyChanged;
+           if (null != handler)
+           {
+             handler(this, new PropertyChangedEventArgs(propertyName));
+           }
+         }
+       }
   }
   ```
 
