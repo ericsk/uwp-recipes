@@ -10,6 +10,7 @@
   * [製作 BMI 計算機](ch3/01_create_bmi_calculator.md)
 * XAML 資料繫結
   * [改良的 BMI 計算機](ch4/01_bmi_calculator_using_data_binding.md)
+  * [製作抽獎程式](ch4/02_lucky_draw_app.md)
 * 檔案與資料存取
 * 網際網路存取
 * 平台裝置功能及擴充套件
