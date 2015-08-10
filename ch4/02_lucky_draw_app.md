@@ -253,7 +253,7 @@
 
 	```xml
 	<Border.Background>
-	  <SolidColorBrush Color="{Binding Gender}" />
+	   <SolidColorBrush Color="{Binding Gender}" />
     </Border.Background>
 	```
 
