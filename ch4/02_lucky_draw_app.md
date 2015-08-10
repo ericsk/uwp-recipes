@@ -1,6 +1,6 @@
 # 4.2 製作抽獎程式
 
-在這則食譜中將會介紹如何運用 ```<GridView>``` 元件來顯示集合類型的資料。
+在這則食譜中將會介紹如何運用 ```<GridView>``` 元件來顯示集合類型的資料，並且以 ```IValueConverter``` 對於資料繫結的內容做特別的處理。
 
 ## 事前準備
 
@@ -145,6 +145,9 @@
       <GridView.ItemTemplate>
         <DataTemplate>
           <Border Height="180" Width="180" Margin="5,10">
+			<Border.Background>
+              <SolidColorBrush Color="LightGray" />
+            </Border.Background>
             <StackPanel Margin="12">
               <TextBlock Text="{Binding Name}" 
                          Style="{StaticResource TitleTextBlockStyle}" />
@@ -246,6 +249,73 @@
 
   ![抽獎後的中獎名單](https://skgitbook.blob.core.windows.net/uwprecipes/ch4/2_lucky_draw_first_draft.png)
 
+  8. 也許你覺得這個抽獎程式有點單調，有注意到我們的 _Winner_ 類別中有 _Gender_ 的屬性嗎？如果我希望中獎名單中的男生背景是深藍色，而女生的背景是紅色（只是舉例，無特別性別意識），那要怎麼做最容易呢？在這個例子中，我們已經在 ```<Border>``` 下設定了 _Border.Background_ 的屬性，如果要讓這個值與性別有關，勢必是要把它與 _Winner.Gender_ 做上資料繫結，像是這樣：
+
+	```xml
+	<Border.Background>
+	  <SolidColorBrush Color="{Binding Gender}" />
+    </Border.Background>
+	```
+
+  但是問題來了，_Gender_ 的值只有可能是 _0_ 或 _1_，那要怎麼與顏色的值產生對應呢？這時候我們就需要使用 **ValueConverter** 來讓資料繫結時做一些轉換。
+
+  在專案中新增一個類別，名稱取為 **GenderToColorConverter.cs**，然後讓這個類別實作 ```IValueConverter``` 的介面：
+
+	```csharp
+	using System;
+	using Windows.UI;
+	using Windows.UI.Xaml.Data;
+
+	namespace LuckyDraw
+	{
+	  public class GenderToColorConverter : IValueConverter
+	  {
+	    object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
+        {
+          return (int)value == 1 ? Colors.Navy : Colors.DarkRed;
+        }
+
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+          throw new NotImplementedException();
+        }
+      }
+    }
+	```
+
+  這裡我們只要先注意 _IValueConverter.Convert_ 這個方法就好，這裡我們就是去檢查 _value_ 參數的值，若是 _1_ 就傳回 ```Color.Navy``` (深藍色)，否則就傳回 ```Color.DarkRed``` (深紅色)。
+
+  9. 有了一個 value converter 後，接下來我們在 **App.xaml** 中把它註冊成一個全區可以使用的資源，並且給它一個鍵值以便存取，所以在 **App.xaml** 的 ```<Application> ... </Application>``` 之間加入：
+
+	```xml
+	<Application.Resources>
+	  <ResourceDictionary>
+		<local:GenderToColorConverter x:Key="GenderToColor" />
+      </ResourceDictionary>
+    </Application.Resources>
+	```
+
+  您可以注意到在 ```<Application>``` 中已經將 _LuckyDraw_ 這個命名空間對應到 XAML 中的 _local_ 命名空間，所以我們加入的是 ```<local:GenderToColorConverter>``` 而 _x:Key_ 就是要給它的鍵值。
+
+  9. 再回到 **MainPage.xaml** 中，在 ```<GridView>``` 的 _ItemTemplate_ 處，修改 ```<Border>``` 中的內容：
+
+	```xml
+    <Border.Background>
+      <SolidColorBrush Color="{Binding Gender, Converter={StaticResource GenderToColor}}" />
+    </Border.Background>
+    <StackPanel Margin="12">
+      <TextBlock Text="{Binding Name}" Foreground="White"
+                 Style="{StaticResource TitleTextBlockStyle}" />
+      <TextBlock Text="{Binding Department}" Foreground="White"
+                 Style="{StaticResource SubtitleTextBlockStyle}" />
+    </StackPanel>
+	```
+
+  這裡我們在 _Border.Background_ 的部份，雖然讓 _SolidColorBrush_ 去繫結 _Gender_ 的資料，但同時也指定了 value converter 讓資料在呈現前先去「轉換」一下，另外就是因為使用了深色的背景色，這裡也將下方的文字標籤加上 _Foreground="White"_ 以白色文字來顯示較易閱讀。這些都改好後，執行的畫面就會像是這樣：
+
+  ![加上性別感知的背景顏色](https://skgitbook.blob.core.windows.net/uwprecipes/ch4/2_gender_color_lucky_draw.png)
+  
+ 
 ## 參考資料
 
   * (MSDN) [GridView 類別](https://msdn.microsoft.com/zh-tw/library/windows/apps/windows.ui.xaml.controls.gridview.aspx)
