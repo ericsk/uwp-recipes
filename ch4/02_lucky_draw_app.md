@@ -268,18 +268,18 @@
 
 	namespace LuckyDraw
 	{
-	  public class GenderToColorConverter : IValueConverter
-	  {
-	    object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
-        {
-          return (int)value == 1 ? Colors.Navy : Colors.DarkRed;
-        }
+	   public class GenderToColorConverter : IValueConverter
+	   {
+	     object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
+         {
+           return (int)value == 1 ? Colors.Navy : Colors.DarkRed;
+         }
 
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-          throw new NotImplementedException();
-        }
-      }
+         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
+         {
+           throw new NotImplementedException();
+         }
+       }
     }
 	```
 
@@ -289,9 +289,9 @@
 
 	```xml
 	<Application.Resources>
-	  <ResourceDictionary>
-		<local:GenderToColorConverter x:Key="GenderToColor" />
-      </ResourceDictionary>
+	   <ResourceDictionary>
+		 <local:GenderToColorConverter x:Key="GenderToColor" />
+	   </ResourceDictionary>
     </Application.Resources>
 	```
 
@@ -301,13 +301,13 @@
 
 	```xml
     <Border.Background>
-      <SolidColorBrush Color="{Binding Gender, Converter={StaticResource GenderToColor}}" />
+       <SolidColorBrush Color="{Binding Gender, Converter={StaticResource GenderToColor}}" />
     </Border.Background>
     <StackPanel Margin="12">
-      <TextBlock Text="{Binding Name}" Foreground="White"
-                 Style="{StaticResource TitleTextBlockStyle}" />
-      <TextBlock Text="{Binding Department}" Foreground="White"
-                 Style="{StaticResource SubtitleTextBlockStyle}" />
+       <TextBlock Text="{Binding Name}" Foreground="White"
+                  Style="{StaticResource TitleTextBlockStyle}" />
+       <TextBlock Text="{Binding Department}" Foreground="White"
+                  Style="{StaticResource SubtitleTextBlockStyle}" />
     </StackPanel>
 	```
 
