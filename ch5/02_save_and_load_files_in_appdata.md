@@ -8,11 +8,11 @@
 
 在這則食譜中，您會瞭解到如何運用 UWP 應用程式的 **AppData** 空間來儲存或讀取檔案。
 
-  > 與 [5.1 - 讀取應用程式套件內檔案的內容](01_load_file_from_app_package.md) 提到的應用程式套件空間不同，放在 **AppData** 中的內容是可以讀寫的。
+  > 與 [5.1 - 讀取應用程式套件內檔案的內容](01_load_file_from_app_package.md)提到的應用程式套件空間不同，放在 **AppData** 中的內容是可以讀寫的。
 
 ## 事前準備
 
-  * 完成 [4.2 製作抽獎程式](../ch4/02_lucky_draw_app.md) 及 [5.1 讀取應用程式套件內檔案的內容](01_load_file_from_app_package.md)的功能。
+  * 完成 [4.2 製作抽獎程式](../ch4/02_lucky_draw_app.md)及 [5.1 讀取應用程式套件內檔案的內容](01_load_file_from_app_package.md)的功能。
 
 ## 操作步驟
 
@@ -54,7 +54,7 @@
 
   在 ```SaveDataAsync()``` 方法中，首先使用了 ```Windows.ApplicationData.Current``` 取得 ```LocalFolder``` 的目錄（註 1），然後在這個目錄下叫叫 _CreateFileAsync_ 建立一個新檔案，檔案名稱設成 _data.json_，_CreationCollisionOption.ReplaceExisting_ 參數就是在檔案存在時直接覆蓋掉。
 
-  接下來的工作，就是要把_儲存在 Winners 這個資料結構裡的資料轉換成 JSON 格式的資料_，在 [5.1 - 讀取應用程式套件內檔案的內容](01_load_file_from_app_package.md) 中我們已經瞭解如何把 JSON 格式的文字轉成 _Windows.Data.Json_ 物件，在這裡就是要做相反的操作，所以針對每一個中獎名單的資料轉成 _JsonObject_、放進 _JsonArray_，統整到一個 _JsonObject_ 中，最後便能呼叫 **Stringify()** 方法把 JSON 物件轉換成純文字，
+  接下來的工作，就是要把_儲存在 Winners 這個資料結構裡的資料轉換成 JSON 格式的資料_，在 [5.1 - 讀取應用程式套件內檔案的內容](01_load_file_from_app_package.md) 中我們已經瞭解如何把 JSON 格式的文字轉成 _Windows.Data.Json_ 物件，在這裡就是要做相反的操作，所以針對每一個中獎名單的資料轉成 _JsonObject_、放進 _JsonArray_，統整到一個 _JsonObject_ 中，最後便能呼叫 **Stringify()** 方法把 JSON 物件轉換成純文字。
 
   順利轉成 JSON 格式的文字資料後，就呼叫 ```FileIO.WriteTextAsync()``` 把文字寫進檔案中，所以加上這樣的修改後，抽完獎就會同時把結果儲存在 **AppData** 目錄中的檔案。
 
