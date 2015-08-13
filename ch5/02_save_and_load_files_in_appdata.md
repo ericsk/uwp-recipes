@@ -27,28 +27,28 @@
 
     private async void SaveDataAsync()
     {
-      // 取得 AppData 的 local 目錄
-      StorageFolder folder = ApplicationData.Current.LocalFolder;
-      // 建立新檔案 data.json
-      StorageFile file = await folder.CreateFileAsync("data.json", CreationCollisionOption.ReplaceExisting);
+       // 取得 AppData 的 local 目錄
+       StorageFolder folder = ApplicationData.Current.LocalFolder;
+       // 建立新檔案 data.json
+       StorageFile file = await folder.CreateFileAsync("data.json", CreationCollisionOption.ReplaceExisting);
 
-      // 把中獎名單變成 JSON 物件
-      var jsonObj = new JsonObject();
-      var winnersArray = new JsonArray();
-      foreach (var winner in Winners)
-      {
-        var obj = new JsonObject();
-        obj["Name"] = JsonValue.CreateStringValue(winner.Name);
-        obj["Department"] = JsonValue.CreateStringValue(winner.Department);
-        obj["Gender"] = JsonValue.CreateNumberValue((double)winner.Gender);
-        winnersArray.Add(obj);
-      }
-      jsonObj["Winners"] = winnersArray;
-      // 將 JSON 物件轉成文字
-      string jsonText = jsonObj.Stringify();
+       // 把中獎名單變成 JSON 物件
+       var jsonObj = new JsonObject();
+       var winnersArray = new JsonArray();
+       foreach (var winner in Winners)
+       {
+         var obj = new JsonObject();
+         obj["Name"] = JsonValue.CreateStringValue(winner.Name);
+         obj["Department"] = JsonValue.CreateStringValue(winner.Department);
+         obj["Gender"] = JsonValue.CreateNumberValue((double)winner.Gender);
+         winnersArray.Add(obj);
+       }
+       jsonObj["Winners"] = winnersArray;
+       // 將 JSON 物件轉成文字
+       string jsonText = jsonObj.Stringify();
 
-      // 寫入檔案
-      await FileIO.WriteTextAsync(file, jsonText);      
+       // 寫入檔案
+       await FileIO.WriteTextAsync(file, jsonText);      
     }
 	```
 
@@ -96,7 +96,6 @@
   先檢查 _data.json_ 檔案是否存在，如果存在就表示之前已經有存檔，所以就把它讀出來，並且使用相同的方法把 JSON 格式資料用 ```Windows.Data.Json``` 來解析資料，最後塞進 _Winners_ 的資料結構中。
 
   這樣一來，就可以確保中獎名單在抽獎完成時儲存，並且重新開啟應用程式時也能顯示已經儲存過的資料。
-  
 
 
 ## 參考資源
