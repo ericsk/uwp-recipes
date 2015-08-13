@@ -95,4 +95,5 @@
 
 ## 參考資料
 
+  * [MSDN] [使用 JavaScript 物件標記法 (JSON)](https://msdn.microsoft.com/zh-tw/library/windows/apps/xaml/hh770289.aspx)
   * [MSDN] [Create, write, and read a file](https://msdn.microsoft.com/zh-tw/library/windows/apps/xaml/mt185401.aspx)

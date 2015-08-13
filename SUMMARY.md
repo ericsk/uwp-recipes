@@ -13,6 +13,7 @@
   * [製作抽獎程式](ch4/02_lucky_draw_app.md)
 * 檔案與資料存取
   * [讀取應用程式套件內檔案的內容](ch5/01_load_file_from_app_package.md)
+  * [將應用程式的內容儲存在檔案中](ch5/02_save_and_load_files_in_appdata.md)
 * 網際網路存取
 * 平台裝置功能及擴充套件
 * 應用程式生命週期
